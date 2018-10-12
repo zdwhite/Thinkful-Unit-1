@@ -1,0 +1,60 @@
+AirBnB 
+
+What's the most expensive listing? What else can you tell me about the listing?
+
+```select 
+	*
+from 
+	Portland
+order by price DESC
+LIMIT 1;
+```
+  The price for this listing is 8400$ per night. It is available 356 nights a year, has 153 total reviews and has a 2 nights minimum stay.
+
+  This listing is 3400$ more per night than the next most expensive listing.
+
+  Further more this raises a red flag! Below is the specific airbnb listing and on the site is listed as 79$/night HMMM
+  https://www.airbnb.com/rooms/4684661?location=Portland%2C%20OR%2C%20United%20States&s=KoS6pZrV
+
+
+
+What neighborhoods seem to be the most popular?
+
+Let's define popularity the neighborhood listings that have a high rate of monthly review.
+
+```
+Select neighbourhood, AVG(reviews_per_month)
+FROM Portland
+group by neighbourhood
+order by AVG(reviews_per_month) DESC;
+```
+Parkrose looks to be the most popular neighborhood with 4.806875 reviews per month
+
+
+
+What time of year is the cheapest time to go to your city? 
+
+```Select date, avg(price)
+FROM calendar
+where
+	available = "t"
+group by date
+order by avg(price) asc;```
+
+This takes a new data set calendar. First the price is changed to numeric and truncated the "$". 
+Second the above query groups all listings by day and averages the price of all available listings.
+The output shows that "2018-10-02"	"102.798631893972" is the average cheapest day of the year.
+
+
+
+What about the busiest?
+
+```Select date, count(available)
+FROM calendar
+where
+	available = "t"
+group by date
+order by count(available) desc;```
+
+This query groups all listings by date and counts if they are available for booking. The busiest day is "2018-12-11"	with "3302" available listings.
+
